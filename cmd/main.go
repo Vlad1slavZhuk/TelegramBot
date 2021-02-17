@@ -27,7 +27,7 @@ func main() {
 		log.Panic("Error:", err)
 	}
 
-	List := storage.NewList(bot)
+	list := storage.NewList(bot)
 
 	bot.Debug = true
 
@@ -47,11 +47,11 @@ func main() {
 			log.Printf("[%s] %v", update.CallbackQuery.From.UserName, update.CallbackQuery.Message)
 			switch update.CallbackQuery.Data {
 			case "del":
-				if e := List.Delete(update.CallbackQuery); e != nil {
+				if e := list.Delete(update.CallbackQuery); e != nil {
 					log.Fatal("Error:", e)
 				}
 			case "done":
-				if e := List.Check(update.CallbackQuery); e != nil {
+				if e := list.Check(update.CallbackQuery); e != nil {
 					log.Fatal("Error:", e)
 				}
 			}
@@ -85,7 +85,7 @@ func main() {
 		}
 
 		if len(update.Message.Text) >= 2 && !update.Message.IsCommand() {
-			if e := List.Append(update.Message); e != nil {
+			if e := list.Append(update.Message); e != nil {
 				log.Fatal("Error:", e)
 			}
 		}

@@ -25,9 +25,8 @@ type List struct {
 }
 
 func NewList(bot *tgbotapi.BotAPI) *List {
-	commands := new(Commands)
 	return &List{
-		Commands: commands,
+		Commands: new(Commands),
 		bot:      bot,
 	}
 }
@@ -35,30 +34,38 @@ func NewList(bot *tgbotapi.BotAPI) *List {
 // Append new product
 func (l *List) Append(msg *tgbotapi.Message) error {
 	name := msg.Text
+
 	msgDel := tgbotapi.NewDeleteMessage(msg.Chat.ID, msg.MessageID)
 	if _, e := l.bot.Send(msgDel); e != nil {
 		log.Fatal("Error:", e)
 	}
+
 	newMsg := tgbotapi.NewMessage(msg.Chat.ID, name)
+
 	newMsg.ReplyMarkup = inlineKeyboard
 	if _, e := l.bot.Send(newMsg); e != nil {
 		log.Fatal("Error:", e)
 	}
+
 	return nil
 }
 
+// Delete product
 func (l *List) Delete(cbq *tgbotapi.CallbackQuery) error {
 	msgDel := tgbotapi.NewDeleteMessage(cbq.Message.Chat.ID, cbq.Message.MessageID)
 	if _, e := l.bot.Send(msgDel); e != nil {
 		log.Fatal("Error:", e)
 	}
+
 	return nil
 }
 
+// Check product
 func (l *List) Check(cbq *tgbotapi.CallbackQuery) error {
 	msgDel := tgbotapi.NewDeleteMessage(cbq.Message.Chat.ID, cbq.Message.MessageID)
 	if _, e := l.bot.Send(msgDel); e != nil {
 		log.Fatal("Error:", e)
 	}
+
 	return nil
 }
