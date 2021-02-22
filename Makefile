@@ -1,5 +1,5 @@
 run:
-	go run cmd/main.go
+	go run cmd/bot/main.go
 
 run-db:
 	docker-compose up

@@ -37,14 +37,16 @@ func (l *List) Append(msg *tgbotapi.Message) error {
 
 	msgDel := tgbotapi.NewDeleteMessage(msg.Chat.ID, msg.MessageID)
 	if _, e := l.bot.Send(msgDel); e != nil {
-		log.Fatal("Error:", e)
+		log.Println("Error:", e)
+		return e
 	}
 
 	newMsg := tgbotapi.NewMessage(msg.Chat.ID, name)
 
 	newMsg.ReplyMarkup = inlineKeyboard
 	if _, e := l.bot.Send(newMsg); e != nil {
-		log.Fatal("Error:", e)
+		log.Println("Error:", e)
+		return e
 	}
 
 	return nil
@@ -53,19 +55,13 @@ func (l *List) Append(msg *tgbotapi.Message) error {
 // Delete product
 func (l *List) Delete(cbq *tgbotapi.CallbackQuery) error {
 	msgDel := tgbotapi.NewDeleteMessage(cbq.Message.Chat.ID, cbq.Message.MessageID)
-	if _, e := l.bot.Send(msgDel); e != nil {
-		log.Fatal("Error:", e)
-	}
-
-	return nil
+	_, err := l.bot.Send(msgDel)
+	return err
 }
 
 // Check product
 func (l *List) Check(cbq *tgbotapi.CallbackQuery) error {
 	msgDel := tgbotapi.NewDeleteMessage(cbq.Message.Chat.ID, cbq.Message.MessageID)
-	if _, e := l.bot.Send(msgDel); e != nil {
-		log.Fatal("Error:", e)
-	}
-
-	return nil
+	_, err := l.bot.Send(msgDel)
+	return err
 }
